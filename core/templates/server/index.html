@@ -11,13 +11,14 @@
             background-color: #f3e5d8;
             font-family: 'Georgia', serif;
             color: #3a3a3a;
+            padding-top: 70px; /* Added to accommodate fixed navbar */
         }
         .container {
             background-color: #fff9e6;
             border: 2px solid #d4b483;
             border-radius: 10px;
             padding: 30px;
-            margin-top: 50px;
+            margin-top: 20px;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
         h1 {
@@ -28,8 +29,35 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
+        /* Navbar styles */
+        .navbar {
+            background-color: #e6bb7cbd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            color: #3a3a3a !important;
+            font-weight: bold;
+        }
+        .navbar-nav .nav-link {
+            color: #3a3a3a !important;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #8b4513 !important;
+        }
+
+        #categoryFilter label {
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            #category {
+                width: 20%;
+                padding:7px;
+            }
+
         .table-responsive {
-            overflow-x: auto; /* Allow horizontal scrolling on small screens */
+            overflow-x: auto;
         }
 
         table {
@@ -38,13 +66,13 @@
             border: 1px solid #d4b483;
             border-radius: 5px;
             overflow: hidden;
-            width: 100%; /* Ensure table takes full width */
+            width: 100%;
         }
 
         th, td {
             border: 1px solid #d4b483;
             padding: 12px !important;
-            text-align: center; /* Center text in table cells */
+            text-align: center;
         }
 
         th {
@@ -67,34 +95,22 @@
             object-fit: cover;
         }
 
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            padding: 0.5em 1em;
-            margin: 0 0.2em;
-            border: 1px solid #d4b483;
-            background-color: #fff9e6;
-            color: #8b4513 !important;
+        /* Ensure the link doesn't break lines */
+        a {
+            white-space: nowrap;
         }
 
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            background-color: #d4b483;
-            color: #fff9e6 !important;
+        /* Control title width */
+        .title-column {
+            max-width: 150px; /* Max width for title on small screens */
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .dataTables_wrapper .dataTables_filter input {
-            border: 1px solid #d4b483;
-            border-radius: 5px;
-            padding: 5px 10px;
-        }
-
-        #categoryFilter {
-            margin-bottom: 20px;
-        }
-
-        /* Mobile View: Adjusting styles for smaller screens */
+        /* Responsive adjustments for mobile views */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
-                margin-top: 20px;
             }
             
             h1 {
@@ -121,7 +137,7 @@
             }
 
             #category {
-                width: 100%;
+                width: 70%;
                 padding: 10px;
             }
         }
@@ -143,8 +159,11 @@
                 width: 60px;
                 height: 60px;
             }
+
+            .title-column {
+                max-width: 100px; /* Reduce title size on small screens */
+            }
             
-            /* Stack elements in a single column for very small screens */
             .container {
                 padding: 10px;
                 margin-top: 10px;
@@ -161,8 +180,22 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">About Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-        <h1>Srotalaya</h1>
         
         <div id="categoryFilter">
             <label for="category">Filter by Category:</label>
@@ -174,13 +207,12 @@
             </select>
         </div>
         
-        <!-- Table is wrapped in a responsive container -->
         <div class="table-responsive">
             <table id="infoSourceTable" class="table table-striped">
                 <thead>
                     <tr>
                         <th>Image</th>
-                        <th>Title</th>
+                        <th class="title-column">Title</th>
                         <th>Link</th>
                         <th class="d-none">Category</th>
                         <th class="d-none">Tags</th>
@@ -198,7 +230,7 @@
                                 {% endif %}
                             </div>
                         </td>
-                        <td>{{ source.title }}</td>
+                        <td class="title-column">{{ source.title }}</td>
                         <td><a href="{{ source.url }}" target="_blank">{{ source.url }}</a></td>
                         <td class="d-none">{{ source.category }}</td>
                         <td class="d-none">{{ source.tags }}</td>
@@ -212,6 +244,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
             var table = $('#infoSourceTable').DataTable({
