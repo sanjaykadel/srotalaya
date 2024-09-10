@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,11 +34,18 @@
         .navbar {
             background-color: #e6bb7cbd;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            height: 70px; /* Adjust height to match padding-top in body */
         }
         .navbar-brand {
             font-family: 'Playfair Display', serif;
             color: #3a3a3a !important;
             font-weight: bold;
+            margin-right: 20px; /* Space between logo and nav links */
+        }
+        .navbar-nav {
+            margin-left: auto; /* Push nav items to the right */
         }
         .navbar-nav .nav-link {
             color: #3a3a3a !important;
@@ -45,21 +53,23 @@
         .navbar-nav .nav-link:hover {
             color: #8b4513 !important;
         }
+        .navbar img {
+            max-height: 60px; /* Adjust max height to fit navbar */
+            height: auto; /* Maintain aspect ratio */
+            width: auto;
+        }
 
         #categoryFilter label {
-                display: block;
-                margin-bottom: 10px;
-            }
-
-            #category {
-                width: 20%;
-                padding:7px;
-            }
-
+            display: block;
+            margin-bottom: 10px;
+        }
+        #category {
+            width: 20%;
+            padding: 7px;
+        }
         .table-responsive {
             overflow-x: auto;
         }
-
         table {
             border-collapse: separate;
             border-spacing: 0;
@@ -68,19 +78,16 @@
             overflow: hidden;
             width: 100%;
         }
-
         th, td {
             border: 1px solid #d4b483;
             padding: 12px !important;
             text-align: center;
         }
-
         th {
             background-color: #d4b483;
             color: #3a3a3a;
             font-weight: bold;
         }
-
         .img-container {
             width: 100px;
             height: 100px;
@@ -88,19 +95,14 @@
             border-radius: 5px;
             margin: 0 auto;
         }
-
         .img-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
-        /* Ensure the link doesn't break lines */
         a {
             white-space: nowrap;
         }
-
-        /* Control title width */
         .title-column {
             max-width: 150px; /* Max width for title on small screens */
             overflow: hidden;
@@ -112,30 +114,20 @@
             .container {
                 padding: 15px;
             }
-            
             h1 {
                 font-size: 24px;
                 margin-bottom: 20px;
             }
-            
             table {
                 font-size: 14px;
             }
-
             th, td {
                 padding: 8px !important;
             }
-
             .img-container {
                 width: 75px;
                 height: 75px;
             }
-
-            #categoryFilter label {
-                display: block;
-                margin-bottom: 10px;
-            }
-
             #category {
                 width: 70%;
                 padding: 10px;
@@ -146,33 +138,26 @@
             h1 {
                 font-size: 20px;
             }
-            
             table {
                 font-size: 12px;
             }
-
             th, td {
                 padding: 6px !important;
             }
-
             .img-container {
                 width: 60px;
                 height: 60px;
             }
-
             .title-column {
                 max-width: 100px; /* Reduce title size on small screens */
             }
-            
             .container {
                 padding: 10px;
                 margin-top: 10px;
             }
-
             #categoryFilter label {
                 font-size: 14px;
             }
-
             #category {
                 padding: 8px;
             }
@@ -182,6 +167,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container-fluid">
+            <img src="{% static 'core/logo/logo.png' %}" alt="Logo">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -196,7 +182,6 @@
     </nav>
 
     <div class="container">
-        
         <div id="categoryFilter">
             <label for="category">Filter by Category:</label>
             <select id="category" class="form-select">
