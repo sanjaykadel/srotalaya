@@ -59,7 +59,9 @@ class Command(BaseCommand):
                                 sanitized_keyword = keyword.replace(' ', '_').replace('/', '_')
                                 file_name = os.path.join('media/images', f"{sanitized_keyword}_thumbnail_{len(results)+1}.jpg")
                                 self.download_thumbnail(thumbnail, file_name)
-                                results.append({'title': title, 'url': url, 'thumbnail': file_name})
+                                print("xxxxxxxxxxxxxxxxxxxx",subscriber_count)
+                                subscriber_count1 = subscriber_count
+                                results.append({'title': title, 'url': url, 'thumbnail': file_name,'subscriber_count':subscriber_count1})
 
                             if len(results) >= 15:
                                 break
@@ -102,5 +104,6 @@ class Command(BaseCommand):
                 url=item['url'],
                 image=image_path,  # Store relative path
                 category=category,
-                tags=tags  # Store the combined tags
+                tags=tags , # Store the combined tags
+                subscribers_count=item['subscriber_count']
             )
