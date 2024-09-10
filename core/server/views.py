@@ -1,9 +1,28 @@
 # myapp/views.py
-from django.shortcuts import render
+from django.shortcuts import render , redirect, get_object_or_404
 from .models import InfoSource
 import re
-from django.shortcuts import render
-from .models import InfoSource
+from django.contrib.admin.views.decorators import staff_member_required
+
+def Test(request):
+    info_sources = InfoSource.objects.all()
+    category_choices = InfoSource.CATEGORY_CHOICES
+
+    # Sort by subscriber count
+    info_sources = sorted(
+        info_sources,
+        key=lambda source: parse_subscribers_count(source.subscribers_count),
+        reverse=True  # Ensure higher subscriber counts come first
+    )
+
+    return render(request, 'server/index copy.html', {
+        'news_sources': info_sources,
+        'category_choices': category_choices
+    })
+
+
+
+
 
 def parse_subscribers_count(count_str):
     """ Convert subscriber count string to a numeric value for sorting. """
@@ -31,6 +50,14 @@ def index(request):
         'news_sources': info_sources,
         'category_choices': category_choices
     })
+
+@staff_member_required
+def delete_info_source(request, pk):
+    source = get_object_or_404(InfoSource, pk=pk)
+    if request.method == 'POST':
+        source.delete()
+        return redirect('index')  # Redirect to the index page after deletion
+    return redirect('index')  # Redirect to the index page if method is not POST
 
 
 def about(request):
