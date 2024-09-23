@@ -3,17 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Srotalaya is a platform that curates blogs, websites, YouTube channels, and social media sources for Nepali audiences.">
-    <meta name="keywords" content="Srotalaya, Nepali blogs, Nepali websites, Nepali YouTube channels, social media, Nepali news sources">
+    <meta name="description" content="Srotalaya is a platform that curates information from various sources, including YouTube channels, websites, blogs, social media, newspapers, and magazines, catering primarily to the Nepali audience.">
+    <meta name="keywords" content="Srotalaya, Nepali audience, YouTube channels, websites, blogs, news portals, magazines, newspapers, information platform, knowledge source">
     <meta name="author" content="Srotalaya Team">
-    <title>About Us | Srotalaya</title>
+    <title>About Us - Srotalaya | Your Source for Diverse Information</title>
+    
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="Srotalaya | Your Source for Diverse Information">
+    <meta property="og:description" content="Srotalaya curates diverse sources of information like YouTube channels, websites, blogs, news portals, and social media for a Nepali audience.">
+    <meta property="og:image" content="https://www.srotalaya.com/media/logo.png"> <!-- Replace with your logo URL -->
+    <meta property="og:url" content="https://www.srotalaya.com/about">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Srotalaya | Your Source for Diverse Information">
+    <meta name="twitter:description" content="Discover diverse information from YouTube channels, blogs, websites, and news platforms with Srotalaya, a platform built for the Nepali audience.">
+    <meta name="twitter:image" content="https://www.srotalaya.com/media/logo.png"> <!-- Replace with your logo URL -->
+    
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    
+    <!-- Custom CSS for Srotalaya -->
     <style>
         body {
             background-color: #f3e5d8;
             font-family: 'Georgia', serif;
             color: #3a3a3a;
-            padding-top: 70px; /* Added to accommodate fixed navbar */
+            padding-top: 50px;
         }
 
         .container {
@@ -21,137 +38,89 @@
             border: 2px solid #d4b483;
             border-radius: 10px;
             padding: 30px;
-            margin-top: 50px;
+            margin-top: 20px;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
 
-        h1 {
+        h1, h2, h3 {
             font-family: 'Playfair Display', serif;
             color: #8b4513;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        h2 {
-            color: #8b4513;
-            margin-bottom: 20px;
-        }
-
-        p, ul {
-            margin-bottom: 20px;
+        p {
             line-height: 1.6;
+            font-size: 1.1rem;
+            text-align: justify;
         }
 
-        ul {
-            list-style-type: disc;
-            padding-left: 20px;
+        .highlight {
+            color: #8b4513;
+            font-weight: bold;
         }
 
-        li {
+        .sources-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .sources-list li {
+            font-size: 1.1rem;
             margin-bottom: 10px;
         }
 
         footer {
+            margin-top: 40px;
             text-align: center;
-            margin-top: 30px;
-        }
-
-        a {
             color: #8b4513;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-                margin-top: 20px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            h2 {
-                font-size: 18px;
-            }
-
-            p, ul {
-                font-size: 16px;
-            }
-        }
-
-        /* Navbar styles */
-        .navbar {
-            background-color: #d4b483;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            color: #3a3a3a !important;
-            font-weight: bold;
-        }
-        .navbar-nav .nav-link {
-            color: #3a3a3a !important;
-        }
-        .navbar-nav .nav-link:hover {
-            color: #8b4513 !important;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container-fluid">
-            <!-- <a class="navbar-brand" href="/">Srotalaya</a> -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">About Us</a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="/contact">Contact</a>
-                    </li> -->
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <div class="container">
         <h1>About Srotalaya</h1>
-        <p>Welcome to <strong>Srotalaya</strong>, your ultimate platform for discovering curated information sources that cater specifically to the Nepali audience. Whether you're looking for insightful blogs, informative websites, popular YouTube channels, or engaging social media pages, we bring all these resources together in one place.</p>
+        
+        <section>
+            <h2>Our Mission</h2>
+            <p>
+                Welcome to <span class="highlight">Srotalaya</span>! Our platform is dedicated to curating a rich and diverse collection of information sources across the digital landscape. Whether it's YouTube, websites, blogs, or social media, our goal is to help you discover and access a wide range of reliable knowledge.
+            </p>
+        </section>
 
-        <h2>Our Mission</h2>
-        <p>Our mission is to connect you with the best Nepali content from around the web. We aim to make it easy for you to find reliable and relevant information, whether you're a student, professional, or just someone eager to explore new topics.</p>
+        <section>
+            <h2>Our Vision</h2>
+            <p>
+                At <span class="highlight">Srotalaya</span>, we believe in the power of information diversity. Our vision is to connect you with the best content from trusted sources, spanning a variety of categories and formats. We are committed to offering a single hub for discovering valuable insights from:
+            </p>
+            <ul class="sources-list">
+                <li>YouTube Channels</li>
+                <li>Websites and Blogs</li>
+                <li>Reddit Communities and Facebook Groups</li>
+                <li>Magazines and Newspapers</li>
+                <li>Online News Portals</li>
+            </ul>
+        </section>
 
-        <h2>Why Choose Srotalaya?</h2>
-        <p>The internet is filled with great content, but finding quality resources in Nepali can sometimes be difficult. <strong>Srotalaya</strong> was created to solve this problem by gathering and organizing the best blogs, websites, YouTube channels, and social media pages, all in one place. Our platform allows you to explore diverse sources, organized by categories and tags for easy navigation.</p>
+        <section>
+            <h2>Why Choose Srotalaya?</h2>
+            <p>
+                Srotalaya is designed to serve the preferences of the <span class="highlight">Nepali audience</span>, providing access to both local and global information. Whether you're seeking the latest news, niche blogs, trending YouTube channels, or expert opinions, Srotalaya has it all, curated for easy access and relevancy.
+            </p>
+        </section>
 
-        <h2>What We Offer</h2>
-        <ul>
-            <li><strong>Curated Lists:</strong> Discover a handpicked collection of blogs, websites, news portals, and social media sources in Nepal.</li>
-            <li><strong>Easy Navigation:</strong> Our intuitive categories and tagging system make finding content a breeze.</li>
-            <li><strong>Regular Updates:</strong> We continuously update our listings to provide you with the freshest and most relevant content.</li>
-        </ul>
-
-        <h2>Get Involved</h2>
-        <p>Have a favorite blog, website, or YouTube channel that you think belongs on <strong>Srotalaya</strong>? We’re always looking for new sources to add to our collection. <a href="/contact">Contact us</a> to share your recommendations!</p>
+        <section>
+            <h3>Our Commitment to Quality</h3>
+            <p>
+                We are constantly updating and refining our collection of sources to ensure the content you discover is credible, informative, and up-to-date. Our team is dedicated to reviewing and selecting content that aligns with the values of quality and diversity.
+            </p>
+        </section>
 
         <footer>
-            <p>&copy; 2024 Srotalaya | <a href="/privacy-policy">Privacy Policy</a> | <a href="/terms">Terms of Service</a></p>
+            <p>&copy; 2024 Srotalaya | Bringing Knowledge to Your Fingertips</p>
         </footer>
     </div>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

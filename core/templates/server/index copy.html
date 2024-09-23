@@ -2,242 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Srotalaya</title>
-    
-    <!-- Bootstrap and DataTables CSS -->
+    <title>Info Source List</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-    <!-- Custom CSS -->
-    <style>
-        body {
-            background-color: #f3e5d8;
-            font-family: 'Georgia', serif;
-            color: #3a3a3a;
-            padding-top: 70px;
-        }
-
-        .container {
-            background-color: #fff9e6;
-            border: 2px solid #d4b483;
-            border-radius: 10px;
-            padding: 30px;
-            margin-top: 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            color: #8b4513;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .navbar {
-            background-color: #e6bb7cbd;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            height: 70px;
-        }
-
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            color: #3a3a3a !important;
-            font-weight: bold;
-            margin-right: 20px;
-        }
-
-        .navbar-nav {
-            margin-left: auto;
-        }
-
-        .navbar-nav .nav-link:hover {
-            color: #8b4513 !important;
-        }
-
-        .navbar img {
-            max-height: 60px;
-        }
-
-        #categoryFilter label {
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        #category {
-            width: 20%;
-            padding: 7px;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        table {
-            border-collapse: separate;
-            border-spacing: 0;
-            border: 1px solid #d4b483;
-            border-radius: 5px;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #d4b483;
-            padding: 12px !important;
-            text-align: center;
-        }
-
-        th {
-            background-color: #d4b483;
-            color: #3a3a3a;
-            font-weight: bold;
-        }
-
-        .img-container {
-            width: 100px;
-            height: 100px;
-            overflow: hidden;
-            border-radius: 5px;
-            margin: 0 auto;
-        }
-
-        .img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .title-column {
-            max-width: 150px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* Star Rating Style */
-        .star-rating {
-            color: #ffdd00;
-            font-size: 1.2rem;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .img-container {
-                width: 75px;
-                height: 75px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .img-container {
-                width: 60px;
-                height: 60px;
-            }
-        }
-
-    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container-fluid">
-            <img src="media/images/logo.png'" alt="Logo">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">About Us</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <div class="container">
-        <div id="categoryFilter">
-            <label for="category">Filter by Category:</label>
-            <select id="category" class="form-select">
-                <option value="">All Categories</option>
-                {% for category, display_name in category_choices %}
-                    <option value="{{ category }}">{{ display_name }}</option>
+        <h1>Info Sources</h1>
+        {% if user.is_staff %}
+        <a href="{% url 'create_info_source' %}" class="btn btn-primary mb-3">Add New Info Source</a>
+        {% endif %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Link</th>
+                    <th>Subscribers</th>
+                    <th>Category</th>
+                    <th>Tags</th>
+                    {% if user.is_staff %}
+                        <th>Action</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for source in news_sources %}
+                <tr>
+                    <td>{{ source.title }}</td>
+                    <td><a href="{{ source.url }}" target="_blank">{{ source.url }}</a></td>
+                    <td>{{ source.subscribers_count }}</td>
+                    <td>{{ source.get_category_display }}</td>
+                    <td>{{ source.tags }}</td>
+                    {% if user.is_staff %}
+                    <td>
+                        <form action="{% url 'delete_info_source' source.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                    {% endif %}
+                </tr>
                 {% endfor %}
-            </select>
-        </div>
-        
-        <div class="table-responsive">
-            <table id="infoSourceTable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th class="title-column">Title</th>
-                        <th>Link</th>
-                        <th>Subscribers</th>
-                        <th class="d-none">Category</th>
-                        <th class="d-none">Tags</th>
-                        {% if user.is_superuser %}
-                            <th>Action</th> <!-- New Action column for Delete -->
-                        {% endif %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for source in news_sources %}
-                    <tr>
-                        <td>
-                            <div class="img-container">
-                                {% if source.image %}
-                                    <img src="{{ source.image.url }}" alt="{{ source.title }}">
-                                {% else %}
-                               <p>zz</p>
-                                {% endif %}
-                            </div>
-                        </td>
-                        <td class="title-column">{{ source.title }}</td>
-                        <td><a href="{{ source.url }}" target="_blank">{{ source.url }}</a></td>
-                        <td>{{ source.subscribers_count }}</td>
-                        <td class="d-none">{{ source.category }}</td>
-                        <td class="d-none">{{ source.tags }}</td>
-                        {% if user.is_superuser %}
-                        <td>
-                            <form action="{% url 'delete_info_source' source.id %}" method="post" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        </td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     </div>
-
-    <!-- jQuery, Bootstrap, and DataTables JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            var table = $('#infoSourceTable').DataTable({
-                pageLength: 10,
-                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                order: [[3, 'desc']],  // Default ordering by Subscribers column (4th column)
-                columnDefs: [
-                    { orderable: false, targets: [0, 2, 6] }, // Disable sorting for Image, Link, and Action
-                    { visible: false, targets: [4, 5] }, // Hide Category and Tags by default
-                    { type: 'num', targets: [3] } // Enable numeric sorting for Subscribers
-                ]
-            });
-    
-            $('#category').on('change', function() {
-                var selectedCategory = $(this).val();
-                table.column(4).search(selectedCategory).draw();
-            });
-        });
-    </script>
 </body>
 </html>

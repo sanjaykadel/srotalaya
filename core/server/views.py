@@ -1,68 +1,12 @@
-# myapp/views.py
-from django.shortcuts import render , redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import InfoSource
+from .forms import InfoSourceForm  # Assuming you have a form to create/edit InfoSource
 import re
-from django.contrib.admin.views.decorators import staff_member_required
-
-def Test(request):
-    info_sources = InfoSource.objects.all()
-    category_choices = InfoSource.CATEGORY_CHOICES
-
-    # Sort by subscriber count
-    info_sources = sorted(
-        info_sources,
-        key=lambda source: parse_subscribers_count(source.subscribers_count),
-        reverse=True  # Ensure higher subscriber counts come first
-    )
-
-    return render(request, 'server/index copy.html', {
-        'news_sources': info_sources,
-        'category_choices': category_choices
-    })
-
-
-
-
-
-def parse_subscribers_count(count_str):
-    """ Convert subscriber count string to a numeric value for sorting. """
-    cleaned_str = re.sub(r'[^\d.,KM]', '', count_str).upper()
-    
-    if 'M' in cleaned_str:
-        return float(cleaned_str.replace('M', '').replace(',', '')) * 1e6
-    elif 'K' in cleaned_str:
-        return float(cleaned_str.replace('K', '').replace(',', '')) * 1e3
-    else:
-        return float(cleaned_str.replace(',', ''))
-
-def index(request):
-    info_sources = InfoSource.objects.all()
-    category_choices = InfoSource.CATEGORY_CHOICES
-
-    # Sort by subscriber count
-    info_sources = sorted(
-        info_sources,
-        key=lambda source: parse_subscribers_count(source.subscribers_count),
-        reverse=True  # Ensure higher subscriber counts come first
-    )
-
-    return render(request, 'server/index.html', {
-        'news_sources': info_sources,
-        'category_choices': category_choices
-    })
-
-@staff_member_required
-def delete_info_source(request, pk):
-    source = get_object_or_404(InfoSource, pk=pk)
-    if request.method == 'POST':
-        source.delete()
-        return redirect('index')  # Redirect to the index page after deletion
-    return redirect('index')  # Redirect to the index page if method is not POST
 
 
 def about(request):
     return render(request, 'server/about.html')
-
 
 from django.shortcuts import render
 from .models import InfoSource
@@ -104,3 +48,73 @@ def merge_duplicate_info_sources(request):
 
     # Render a success message or redirect
     return render(request, 'server/index.html', {'message': 'Duplicates merged successfully'})
+
+
+
+# Helper function to parse subscribers count for sorting
+def parse_subscribers_count(count_str):
+    """ Convert subscriber count string to a numeric value for sorting. """
+    cleaned_str = re.sub(r'[^\d.,KM]', '', count_str).upper()
+    
+    if 'M' in cleaned_str:
+        return float(cleaned_str.replace('M', '').replace(',', '')) * 1e6
+    elif 'K' in cleaned_str:
+        return float(cleaned_str.replace('K', '').replace(',', '')) * 1e3
+    else:
+        return float(cleaned_str.replace(',', ''))
+
+# Index view to display all InfoSource records
+def index(request):
+    info_sources = InfoSource.objects.all()
+    category_choices = InfoSource.CATEGORY_CHOICES
+
+    # Sort by subscriber count
+    info_sources = sorted(
+        info_sources,
+        key=lambda source: parse_subscribers_count(source.subscribers_count),
+        reverse=True  # Ensure higher subscriber counts come first
+    )
+
+    return render(request, 'server/index.html', {
+        'news_sources': info_sources,
+        'category_choices': category_choices
+    })
+
+def Test(request):
+    info_sources = InfoSource.objects.all()
+    category_choices = InfoSource.CATEGORY_CHOICES
+
+    # Sort by subscriber count
+    info_sources = sorted(
+        info_sources,
+        key=lambda source: parse_subscribers_count(source.subscribers_count),
+        reverse=True  # Ensure higher subscriber counts come first
+    )
+
+    return render(request, 'server/index copy.html', {
+        'news_sources': info_sources,
+        'category_choices': category_choices
+    })
+
+
+# Create new InfoSource (only for logged-in users)
+@login_required
+def create_info_source(request):
+    if request.method == 'POST':
+        form = InfoSourceForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('test')  # Redirect to index page after successful creation
+    else:
+        form = InfoSourceForm()
+    
+    return render(request, 'server/create_info_source.html', {'form': form})
+
+# Delete an InfoSource (only for staff members)
+@login_required
+def delete_info_source(request, pk):
+    source = get_object_or_404(InfoSource, pk=pk)
+    if request.method == 'POST':
+        source.delete()
+        return redirect('test')  # Redirect to the index page after deletion
+    return render(request, 'server/confirm_delete.html', {'source': source})
